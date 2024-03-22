@@ -226,7 +226,7 @@ def glrun():
         pygame.time.wait(10)
 
 # ----------------------------------------------------------------
-"""HANDS AND STUFF"""
+"""Hands Part"""
 
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -295,7 +295,7 @@ def lock(marks, corners):
 
 """
 for rotations, get initial angle of 0-9
-for as long as 'locked' only contains >4, then the change in angle of 0-9 
+for as long as 'locked' only contains >=3, then the change in angle of 0-9 
 should be tracked and emulated in a rotation matrix   
 """
 
@@ -346,7 +346,7 @@ def handrun():
     bottom_right_x = top_right_x
     bottom_right_y = bottom_left_y
 
-    """preset to spawn the cube"""
+    """preset to spawn the box"""
     top_left_x/=frame_width
     top_left_y/=frame_height
     top_right_x/=frame_width
@@ -383,7 +383,7 @@ def handrun():
             
             
             # ----------------------------------------------------------
-            """attempt to track corners dynamically"""
+            """track corners dynamically"""
             if started:
                 top_left_x, top_left_y = convert(prevstate[0])
                 top_right_x, top_right_y = convert(prevstate[1])
@@ -396,6 +396,7 @@ def handrun():
 
 
             # -----------------------------------------------------------
+            """update and show updated landmarks"""
             if len(marks)>=21:
                 cur = lock(marks, corners)
                 idx = 0
@@ -419,7 +420,7 @@ def handrun():
                             )
 
             # ----------------------------------------------------------
-            """movement requirements: locked array must not contain <4"""
+            """movement requirements: locked array must not contain <3"""
             move = 0
             if flag==1:
                 locked.append(cur)
